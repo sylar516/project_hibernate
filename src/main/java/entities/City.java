@@ -16,8 +16,9 @@ public class City {
     @Column(name = "city", length = 50, nullable = false)
     private String city;
 
-    @Column(name = "country_id", nullable = false)
-    private Short countryId;
+    @ManyToOne
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
     @UpdateTimestamp
     @Column(name = "last_update", nullable = false)
@@ -35,12 +36,12 @@ public class City {
         this.city = city;
     }
 
-    public Short getCountryId() {
-        return countryId;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryId(Short countryId) {
-        this.countryId = countryId;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public LocalDateTime getLastUpdate() {
