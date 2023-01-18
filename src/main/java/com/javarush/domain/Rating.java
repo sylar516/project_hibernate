@@ -1,4 +1,4 @@
-package enums;
+package com.javarush.domain;
 
 public enum Rating {
     G("G"),
@@ -7,7 +7,7 @@ public enum Rating {
     R("R"),
     NC17("NC-17");
 
-    private String value;
+    private final String value;
 
     Rating(String value) {
         this.value = value;

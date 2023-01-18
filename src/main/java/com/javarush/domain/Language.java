@@ -1,27 +1,33 @@
-package entities;
+package com.javarush.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "category", schema = "movie")
-public class Category {
+@Table(schema = "movie", name = "language")
+public class Language {
     @Id
+    @Column(name = "language_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     private Byte id;
 
-    @Column(name = "name", length = 25, nullable = false)
+    @Column(columnDefinition = "char")
+    @Type(type = "org.hibernate.type.CharacterType")
     private String name;
 
+    @Column(name = "last_update")
     @UpdateTimestamp
-    @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
 
     public Byte getId() {
         return id;
+    }
+
+    public void setId(Byte id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -34,5 +40,9 @@ public class Category {
 
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

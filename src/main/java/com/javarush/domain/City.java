@@ -1,4 +1,4 @@
-package entities;
+package com.javarush.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -6,26 +6,29 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "city", schema = "movie")
+@Table(schema = "movie", name = "city")
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
-    @Column(name = "city", length = 50, nullable = false)
     private String city;
 
     @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
+    @Column(name = "last_update")
     @UpdateTimestamp
-    @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
 
     public Short getId() {
         return id;
+    }
+
+    public void setId(Short id) {
+        this.id = id;
     }
 
     public String getCity() {
@@ -46,5 +49,9 @@ public class City {
 
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

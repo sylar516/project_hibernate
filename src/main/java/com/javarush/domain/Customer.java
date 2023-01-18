@@ -1,49 +1,55 @@
-package entities;
+package com.javarush.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "customer", schema = "movie")
+@Table(schema = "movie", name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", nullable = false)
+    @JoinColumn(name = "store_id")
     private Store store;
 
-    @Column(name = "first_name", length = 45, nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", length = 45, nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", length = 50)
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "address_id", nullable = false)
+    @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(name = "active", nullable = false, columnDefinition = "true")
+    //возможно ошибка
+    @Column(columnDefinition = "INTEGER")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean active;
 
+    @Column(name = "create_date")
     @CreationTimestamp
-    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
 
-    @UpdateTimestamp
     @Column(name = "last_update")
+    @UpdateTimestamp
     private LocalDateTime lastUpdate;
 
     public Short getId() {
         return id;
+    }
+
+    public void setId(Short id) {
+        this.id = id;
     }
 
     public Store getStore() {
@@ -98,7 +104,15 @@ public class Customer {
         return createDate;
     }
 
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }
