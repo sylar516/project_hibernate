@@ -24,8 +24,9 @@ public class Staff {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    //возможно ошибка
-    private Byte[] picture;
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private byte[] picture;
 
     private String email;
 
@@ -33,10 +34,9 @@ public class Staff {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    //возможно ошибка
-    @Column(columnDefinition = "INTEGER")
+    @Column(name = "active", columnDefinition = "BIT") //TODO возможно в columnDefinition нужно указать INTEGER
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private Boolean active;
+    private Boolean isActive;
 
     private String username;
 
@@ -78,11 +78,11 @@ public class Staff {
         this.address = address;
     }
 
-    public Byte[] getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(Byte[] picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
@@ -103,11 +103,11 @@ public class Staff {
     }
 
     public Boolean getActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(Boolean active) {
-        this.active = active;
+        isActive = active;
     }
 
     public String getUsername() {
