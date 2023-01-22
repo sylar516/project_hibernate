@@ -13,7 +13,8 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
-    private String country;
+    @Column(name = "country")
+    private String title;
 
     @Column(name = "last_update")
     @UpdateTimestamp
@@ -27,12 +28,12 @@ public class Country {
         this.id = id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public LocalDateTime getLastUpdate() {
