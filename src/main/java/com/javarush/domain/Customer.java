@@ -38,7 +38,7 @@ public class Customer {
 
     @Column(name = "create_date")
     @CreationTimestamp
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "last_update")
     @UpdateTimestamp
@@ -100,12 +100,12 @@ public class Customer {
         this.active = active;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public LocalDateTime getLastUpdate() {
