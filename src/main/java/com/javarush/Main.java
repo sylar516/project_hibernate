@@ -18,6 +18,7 @@ public class Main {
         properties.put(Environment.USER, "root");
         properties.put(Environment.PASS, "350609sylarR");
         properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread"); //настройка нужна для корректной работы кэша при многопоточности
         properties.put(Environment.HBM2DDL_AUTO, "validate");
 
         sessionFactory = new Configuration()
