@@ -1,6 +1,7 @@
 package com.javarush.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -29,6 +30,7 @@ public class Payment {
     private BigDecimal amount;
 
     @Column(name = "payment_date")
+    @CreationTimestamp
     private LocalDateTime paymentDate;
 
     @Column(name = "last_update")
