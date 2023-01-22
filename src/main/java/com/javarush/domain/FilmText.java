@@ -8,9 +8,11 @@ import org.hibernate.annotations.Type;
 public class FilmText {
     @Id
     @Column(name = "film_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
+    @OneToOne
+    @JoinColumn(name = "film_id")
+    private Film film;
     private String title;
 
     @Column(columnDefinition = "text")
@@ -23,6 +25,14 @@ public class FilmText {
 
     public void setId(Short id) {
         this.id = id;
+    }
+
+    public Film getFilm() {
+        return film;
+    }
+
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     public String getTitle() {
