@@ -20,7 +20,7 @@ public class Film {
     private String title;
 
     //возможно ошибка
-    @Column(columnDefinition = "LONGVARCHAR")
+    @Column(columnDefinition = "text")
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
@@ -48,14 +48,11 @@ public class Film {
     @Column(name = "replacement_cost")
     private BigDecimal replacementCost;
 
-    //возможно ошибка
     @Column(columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
-    @Type(type = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
     private String rating;
 
-    //возможно ошибка
-    @ElementCollection
-    private Set<String> special_features;
+    @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
+    private String special_features;
 
     @Column(name = "last_update")
     @UpdateTimestamp
@@ -161,11 +158,11 @@ public class Film {
         this.rating = rating;
     }
 
-    public Set<String> getSpecial_features() {
+    public String getSpecial_features() {
         return special_features;
     }
 
-    public void setSpecial_features(Set<String> special_features) {
+    public void setSpecial_features(String special_features) {
         this.special_features = special_features;
     }
 
