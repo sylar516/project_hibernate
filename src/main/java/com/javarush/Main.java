@@ -2,11 +2,14 @@ package com.javarush;
 
 import com.javarush.dao.*;
 import com.javarush.domain.*;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 
 import java.util.Properties;
+import java.util.Random;
 
 public class Main {
     private final SessionFactory sessionFactory;
@@ -76,5 +79,36 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+        Customer customer = main.createCustomer();
+    }
+
+    private Customer createCustomer() {
+        try(Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+            Byte storeId = (byte) new Random().nextInt(1, 3);
+            Store store = storeDAO.getById(storeId);
+
+            City city = cityDAO.getByName("La Romana");
+
+            Address address = new Address();
+            address.setAddress("Tverskaya, 10");
+            address.setCity(city);
+            address.setDistrict("Russia");
+            address.setPhone("89039761232");
+            address.setPostalCode("451300");
+            addressDAO.save(address);
+
+            Customer customer = new Customer();
+            customer.setStore(store);
+            customer.setFirstName("Sonya");
+            customer.setLastName("Koshkina");
+            customer.setEmail("son@yandex.ru");
+            customer.setAddress(address);
+            customer.setActive(true);
+            customerDAO.save(customer);
+
+            transaction.commit();
+            return customer;
+        }
     }
 }

@@ -30,16 +30,14 @@ public class GenericDAO<T> {
         return query.list();
     }
 
-    public T getById(Integer entityId) {
+    public T getById(Number entityId) {
         Session session = getCurrentSession();
         return session.get(clazz, entityId);
     }
 
     public T save(T entity) {
         Session session = getCurrentSession();
-        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(entity);
-        transaction.commit();
         return entity;
     }
 
