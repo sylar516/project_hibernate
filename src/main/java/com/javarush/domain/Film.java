@@ -7,7 +7,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Entity
 @Table(schema = "movie", name = "film")
@@ -24,9 +28,8 @@ public class Film {
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    //возможно ошибка
     @Column(name = "release_year",columnDefinition = "year")
-    @Type(type = "org.hibernate.type.ShortType")
+    @Convert(converter = YearAttributeConverter.class)
     private Year releaseYear;
 
     @ManyToOne
@@ -38,7 +41,7 @@ public class Film {
     private Language originalLanguage;
 
     @Column(name = "rental_duration")
-    private Byte rental_duration;
+    private Byte rentalDuration;
 
     @Column(name = "rental_rate")
     private BigDecimal rentalRate;
@@ -52,7 +55,7 @@ public class Film {
     private String rating;
 
     @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
-    private String special_features;
+    private String specialFeatures;
 
     @Column(name = "last_update")
     @UpdateTimestamp
@@ -118,12 +121,12 @@ public class Film {
         this.originalLanguage = originalLanguage;
     }
 
-    public Byte getRental_duration() {
-        return rental_duration;
+    public Byte getRentalDuration() {
+        return rentalDuration;
     }
 
-    public void setRental_duration(Byte rental_duration) {
-        this.rental_duration = rental_duration;
+    public void setRentalDuration(Byte rentalDuration) {
+        this.rentalDuration = rentalDuration;
     }
 
     public BigDecimal getRentalRate() {
@@ -154,16 +157,30 @@ public class Film {
         return rating;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setRating(Rating rating) {
+        this.rating = rating.getValue();
     }
 
-    public String getSpecial_features() {
-        return special_features;
+    public Set<Feature> getSpecialFeatures() {
+        if(isNull(specialFeatures)) {
+            return null;
+        }
+
+        Set<Feature> featureSet = new HashSet<>();
+        String[] features = specialFeatures.split(",");
+        for (String feature : features) {
+            featureSet.add(Feature.getFeatureByValue(feature));
+        }
+        featureSet.remove(null);
+        return featureSet;
     }
 
-    public void setSpecial_features(String special_features) {
-        this.special_features = special_features;
+    public void setSpecialFeatures(Set<Feature> features) {
+        if(isNull(features) || features.isEmpty()) {
+            specialFeatures = null;
+        } else {
+            specialFeatures = features.stream().map(Feature::getValue).collect(Collectors.joining(","));
+        }
     }
 
     public LocalDateTime getLastUpdate() {

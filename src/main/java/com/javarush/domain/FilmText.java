@@ -19,13 +19,13 @@ public class FilmText {
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    public Short getId() {
-        return id;
-    }
-
-    public void setId(Short id) {
-        this.id = id;
-    }
+//    public Short getId() {
+//        return id;
+//    }
+//
+//    public void setId(Short id) {
+//        this.id = id;
+//    }
 
     public Film getFilm() {
         return film;

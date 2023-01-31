@@ -15,7 +15,6 @@ public class Language {
     private Byte id;
 
     @Column(columnDefinition = "char")
-    @Type(type = "org.hibernate.type.CharacterType")
     private String name;
 
     @Column(name = "last_update")

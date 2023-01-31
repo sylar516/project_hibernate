@@ -15,7 +15,7 @@ public class Store {
 
     @OneToOne
     @JoinColumn(name = "manager_staff_id")
-    private Staff managerStaffId;
+    private Staff managerStaff;
 
     @OneToOne
     @JoinColumn(name = "address_id")
@@ -33,12 +33,12 @@ public class Store {
         this.id = id;
     }
 
-    public Staff getManagerStaffId() {
-        return managerStaffId;
+    public Staff getManagerStaff() {
+        return managerStaff;
     }
 
-    public void setManagerStaffId(Staff managerStaffId) {
-        this.managerStaffId = managerStaffId;
+    public void setManagerStaff(Staff managerStaff) {
+        this.managerStaff = managerStaff;
     }
 
     public Address getAddress() {

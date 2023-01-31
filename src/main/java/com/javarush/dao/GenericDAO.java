@@ -2,7 +2,6 @@ package com.javarush.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -43,25 +42,18 @@ public class GenericDAO<T> {
 
     public T update(T entity) {
         Session session = getCurrentSession();
-        Transaction transaction = session.beginTransaction();
-        T updateEntity = (T) session.merge(entity);
-        transaction.commit();
-        return updateEntity;
+        return (T) session.merge(entity);
     }
 
     public void deleteById(Integer entityId) {
         Session session = getCurrentSession();
-        Transaction transaction = session.beginTransaction();
         T entity = getById(entityId);
         delete(entity);
-        transaction.commit();
     }
 
     public void delete(T entity) {
         Session session = getCurrentSession();
-        Transaction transaction = session.beginTransaction();
         session.remove(entity);
-        transaction.commit();
     }
 
     public Session getCurrentSession() {
