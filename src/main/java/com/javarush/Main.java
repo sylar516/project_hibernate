@@ -10,7 +10,6 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.query.Query;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.*;
@@ -39,7 +38,7 @@ public class Main {
         properties.put(Environment.URL, "jdbc:p6spy:mysql://localhost:3306/movie");
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
         properties.put(Environment.USER, "root");
-        properties.put(Environment.PASS, "350609sylarR");
+        properties.put(Environment.PASS, "root");
         properties.put(Environment.SHOW_SQL, "true");
         properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread"); //настройка нужна для корректной работы кэша при многопоточности
         properties.put(Environment.HBM2DDL_AUTO, "validate");
@@ -80,12 +79,8 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+//        Список запросов, к базе данных
 //        Customer customer = main.createCustomer();
-//        Session session = main.sessionFactory.getCurrentSession();
-//        session.beginTransaction();
-//        Customer customer = main.customerDAO.getById((short) 600);
-//        Film film = main.filmDAO.getById((short) 6);
-//        session.getTransaction().commit();
 //        System.out.println(film.getSpecial_features());
 //        System.out.println(film.getLanguage().getName());
 //        System.out.println(film.getRating());
@@ -94,12 +89,12 @@ public class Main {
 //        System.out.println(specialFeatures);
 //
 //        main.setFilmSpecialFeatures(film);
-
+//
 //        System.out.println(customer.getAddress() + " " + customer.getFirstName() + " " + customer.getLastName());
 //        main.customerReturnedInventoryToStore(customer.getId());
-
+//
 //        main.customerRentInventoryFromStore(customer, film);
-//        main.releaseNewFilm();
+        main.releaseNewFilm();
     }
 
     private void releaseNewFilm() {
@@ -108,9 +103,9 @@ public class Main {
 
             Transaction transaction = session.beginTransaction();
             Film film = new Film();
-            film.setTitle("CATZILLA ATTACK PART 2");
+            film.setTitle("CATZILLA ATTACK PART 3");
             film.setDescription("A epic tale about catzilla again");
-            film.setReleaseYear(Year.of(LocalDate.now().getYear()));
+            film.setReleaseYear(Year.now());
 
             Query<Long> queryLanguage = session.createQuery("select count(l) from Language l", Long.class);
             int languageCount = Math.toIntExact(queryLanguage.uniqueResult());
@@ -119,9 +114,9 @@ public class Main {
             film.setLanguage(language);
 
             film.setRentalDuration((byte) random.nextInt(1, 9));
-            film.setRentalRate(new BigDecimal(random.nextDouble(0.99, 5)));
+            film.setRentalRate(BigDecimal.valueOf(random.nextDouble(0.99, 5)));
             film.setLength((short) 122);
-            film.setReplacementCost(new BigDecimal(random.nextDouble(9.99, 30)));
+            film.setReplacementCost(BigDecimal.valueOf(random.nextDouble(9.99, 30)));
             film.setRating(Rating.NC17);
 
             Set<Feature> features = Set.of(Feature.TRAILERS, Feature.COMMENTARIES);
@@ -200,25 +195,6 @@ public class Main {
                 payment.setRental(rental);
                 paymentDAO.save(payment);
             } else { System.out.println("фильм " + film.getTitle() + " не доступен для аренды"); }
-            transaction.commit();
-        }
-    }
-
-    private void setFilmSpecialFeatures(Film film) {
-        try(Session session = sessionFactory.getCurrentSession()) {
-            Transaction transaction = session.beginTransaction();
-            Set<Feature> features = Set.of(Feature.DELETED_SCENES, Feature.BEHIND_THE_SCENES);
-            film.setSpecialFeatures(features); // было Deleted Scenes,Behind the Scenes
-            filmDAO.save(film);
-            transaction.commit();
-        }
-    }
-
-    private void setFilmRating(Film film) {
-        try(Session session = sessionFactory.getCurrentSession()) {
-            Transaction transaction = session.beginTransaction();
-            film.setRating(Rating.PG); //был рейтинг PG
-            filmDAO.save(film);
             transaction.commit();
         }
     }

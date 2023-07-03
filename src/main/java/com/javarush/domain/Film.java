@@ -23,7 +23,6 @@ public class Film {
 
     private String title;
 
-    //возможно ошибка
     @Column(columnDefinition = "text")
     @Type(type = "org.hibernate.type.TextType")
     private String description;
