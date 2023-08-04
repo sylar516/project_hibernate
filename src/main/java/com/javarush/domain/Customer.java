@@ -31,7 +31,7 @@ public class Customer {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(columnDefinition = "BIT") //TODO возможно в columnDefinition нужно указать INTEGER
+    @Column(columnDefinition = "BIT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean active;
 
